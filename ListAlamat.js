@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, ScrollView } from 'react-native';
-import { Text, CheckBox, Button } from 'react-native-elements'; // Gunakan komponen CheckBox dari 'react-native-elements'
+import { Text, CheckBox, Button } from 'react-native-elements';
 
 const ListAlamat = ({ route, navigation }) => {
   const { address, catatan, kota, kecamatan, desa } = route.params;
@@ -17,9 +17,9 @@ const ListAlamat = ({ route, navigation }) => {
   };
 
   // Fungsi untuk menghapus alamat yang telah disubmit
-  const removeSubmittedAddress = (address) => {
-    setSubmittedAddresses(submittedAddresses.filter((a) => a !== address));
-  };
+  //const removeSubmittedAddress = (address) => {
+   // setSubmittedAddresses(submittedAddresses.filter((a) => a !== address));
+ // };
 
   const handleAddAlamat = () => {
     navigation.navigate('TambahAlamat', { addSubmittedAddress });
@@ -35,11 +35,12 @@ const ListAlamat = ({ route, navigation }) => {
 
   return (
     <View>
-      <Text>Pilih Alamat:</Text>
+      <view style={{ margin: 15 }}>
+      <header>Pilih Alamat:</header></view>
+
       <Button title="Tambah Alamat" onPress={handleAddAlamat} />
 
-      
-       
+     
           <View key={address} style={{ flexDirection: 'row', alignItems: 'center' }}>
             <CheckBox
               checked={selectedAddress === address}

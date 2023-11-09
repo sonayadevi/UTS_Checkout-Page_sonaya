@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, Image, Text, Alert, SafeAreaView } from 'react-native';
+import { View, TextInput, Image, Alert, SafeAreaView, Picker, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { Text, CheckBox, Button, Picker } from 'react-native-elements'; // Gunakan komponen CheckBox dari 'react-native-elements'
+import { Button, Text } from 'react-native-elements';
 
 
-const CheckOut = ({ navigation }) => {
+const CheckOut = ({ navigation, route }) => {
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
-  const [shippingOption, setShippingOption] = useState('');
-  const [payOption, setPayOption] = useState('');
+  const [shippingOption, setShippingOption] = useState('2000');
+  const [payOption, setPayOption] = useState('1');
   const [note, setNote] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     (async () => {
       if (Platform.OS !== 'web') {
-        const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
           Alert.alert('Permission required', 'Please allow access to your photo library to upload images.');
         }
@@ -36,83 +36,105 @@ const CheckOut = ({ navigation }) => {
     }
   };
 
-  const handleAlamat = () =>{
+  const handleAlamat = () => {
     navigation.navigate('ListAlamat', {
-      address,});
-    };
-    
+      address: address, // Pass the address to the ListAlamat page
+    });
+  };
 
-const handleSave = () => {
-    //navigation.navigate('ListAlamat', {
-    //  name,
-     // address,
-     // shippingOption,
-     // note,
-    //  selectedImage, // Mengirim URL gambar yang dipilih ke halaman ListAlamat
-    //});
+
+
+  const handleSave = () => {
+    // Perform the actual checkout process here.
+    // Access and use the state variables (name, address, shippingOption, payOption, note) and the selected image (selectedImage) as needed.
+    // Example: You can console.log the values for verification.
+
+    console.log('Name:', name);
+    console.log('Address:', address);
+    console.log('Shipping Option:', shippingOption);
+    console.log('Payment Option:', payOption);
+    console.log('Note:', note);
+    console.log('Selected Image URI:', selectedImage);
+
+    // Then, you can navigate to a confirmation page or perform any other necessary actions.
+    navigation.navigate('CheckoutConfirmation');
   };
 
   return (
     <SafeAreaView>
+      <view style={{ margin: 15 }}>
       <TextInput
-        placeholder="Masukkan Nama Anda"
+        placeholder="Maukkan Nama Anda"
         value={name}
         onChangeText={(text) => setName(text)}
-      />
+        
+      /></view>
 
       <Button
-        title="Pilih Alamat" onPress={handleAlamat}
-        value={address}
-        onChangeText={handleAlamat => setAddress(text)}
+        title="Pilih Alamat"
+        onPress={handleAlamat}
       />
 
-      <Text>Opsi Pengiriman:</Text>
-        <Picker
-          selectedValue={shippingOption}
-          onValueChange={(itemValue, itemIndex) => setShippingOption(itemValue)}
-        >
-          <Picker.Item label="Express (2000)" value="2000" />
-          <Picker.Item label="Next Day (0)" value="0" />
-          
-          
-        </Picker> 
-      
-        <Text>Opsi Pengiriman:</Text>
-        <Picker
-          selectedValue={payOption}
-          onValueChange={(itemValue, itemIndex) => setPayOption(itemValue)}
-        >
-          <Picker.Item label="BCA (0901204210032)" value="1" />
-          <Picker.Item label="BNI (1204210032)" value="2" />
-          <Picker.Item label="COD " value="0" />
-            
-        </Picker> 
 
+    
+      <Text>Opsi Pengiriman:</Text>
+      <Picker
+        selectedValue={shippingOption}
+        onValueChange={(itemValue) => setShippingOption(itemValue)}
+      >
+        <Picker.Item label="Express (Rp 2000)" value="2000" />
+        <Picker.Item label="Next Day (Gratis)" value="0" />
+      </Picker>
+
+      
+      <Text>Opsi Pembayaran:</Text>
+      <Picker
+        selectedValue={payOption}
+        onValueChange={(itemValue) => setPayOption(itemValue)}
+      >
+        <Picker.Item label="BCA (No. Rekening: 0901204210032)" value="1" />
+        <Picker.Item label="BNI (No. Rekening: 1204210032)" value="2" />
+        <Picker.Item label="COD (Bayar di Tempat)" value="0" />
+      </Picker>
+
+      
+      <Button bg="red.500"
+        title="Upload Bukti Transfer"
+        onPress={handleChooseImage}
+      />
+
+      {selectedImage ? (
+        <Image source={{ uri: selectedImage }} style={{ width: 200, height: 200 }} />
+      ) : (
+        <View
+          style={{
+            width: 200,
+            height: 200,
+            backgroundColor: '#ccc',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Text>Pilih Gambar</Text>
+        </View>
+      )}
+
+    <view style={{ margin: 15 }}>
       <TextInput
         placeholder="Catatan"
         value={note}
         onChangeText={(text) => setNote(text)}
-      />
-      <Button title="Upload Bukti Transfer" onPress={handleChooseImage} />
+      /></view>
+ 
+            
+    <Button   
+        
+        title="Check Out"
+        onPress={handleSave}
+      /> 
+     
 
-      {selectedImage ? (
-          <Image source={selectedImage} style={{ width: 200, height: 200 }} />
-        ) : (
-          <View
-            style={{
-              
-              width: 200,
-              height: 200,
-              backgroundColor: '#ccc',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <Text>Pilih Gambar</Text>
-          </View>
-        )}
-
-     <Button title="Check Out" onPress={handleSave} />
+      
     </SafeAreaView>
   );
 };
