@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Image, Alert, SafeAreaView, Picker, Platform } from 'react-native';
+import { TextInput, Image, Alert, SafeAreaView, Picker, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { Button, Text } from 'react-native-elements';
+
+import { NativeBaseProvider, Box, Text, Button,View  } from "native-base";
 
 
 const CheckOut = ({ navigation, route }) => {
@@ -61,19 +62,21 @@ const CheckOut = ({ navigation, route }) => {
   };
 
   return (
+    <NativeBaseProvider>
     <SafeAreaView>
       <view style={{ margin: 15 }}>
+     
       <TextInput
-        placeholder="Maukkan Nama Anda"
+        placeholder="Masukkan Nama Anda"
         value={name}
         onChangeText={(text) => setName(text)}
         
       /></view>
 
       <Button
-        title="Pilih Alamat"
-        onPress={handleAlamat}
-      />
+        bg="yellow.500"
+        h={50}
+        onPress={handleAlamat}> Pilih Alamat </Button>
 
 
     
@@ -98,10 +101,11 @@ const CheckOut = ({ navigation, route }) => {
       </Picker>
 
       
-      <Button bg="red.500"
-        title="Upload Bukti Transfer"
+      <Button 
+        h={50}
+        bg="yellow.500"
         onPress={handleChooseImage}
-      />
+      > Upload Bukti Transfer </Button>
 
       {selectedImage ? (
         <Image source={{ uri: selectedImage }} style={{ width: 200, height: 200 }} />
@@ -120,22 +124,24 @@ const CheckOut = ({ navigation, route }) => {
       )}
 
     <view style={{ margin: 15 }}>
+   
       <TextInput
-        placeholder="Catatan"
+        placeholder="Masukkan Catatan"
         value={note}
         onChangeText={(text) => setNote(text)}
       /></view>
  
             
     <Button   
-        
-        title="Check Out"
+        h={50}
+        bg="yellow.500"
         onPress={handleSave}
-      /> 
+      > Check Out </Button>
      
 
       
     </SafeAreaView>
+    </NativeBaseProvider>
   );
 };
 

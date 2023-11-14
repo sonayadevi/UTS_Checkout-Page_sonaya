@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput } from 'react-native';
-import { Button, Text } from 'react-native-elements';
+import { NativeBaseProvider,Button, Text } from 'native-base';
 
 const TambahAlamat = ({ navigation }) => {
   const [kota, setKota] = useState('');
@@ -20,6 +20,7 @@ const TambahAlamat = ({ navigation }) => {
   };
 
   return (
+    <NativeBaseProvider>
     <View>
       <view style={{ margin: 15 }}>
       <TextInput
@@ -49,8 +50,10 @@ const TambahAlamat = ({ navigation }) => {
         onChangeText={(text) => setCatatan(text)}
       /></view>
 
-      <Button title="Submit" onPress={handleSaveAddress} />
+      <Button  bg="yellow.500"
+        h={50}  onPress={handleSaveAddress} > SUBMIT </Button>
     </View>
+    </NativeBaseProvider>
   );
 };
 

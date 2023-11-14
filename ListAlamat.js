@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, ScrollView } from 'react-native';
-import { Text, CheckBox, Button } from 'react-native-elements';
+import { NativeBaseProvider, Text, Button } from 'native-base';
+import { CheckBox } from 'react-native-elements';
 
 const ListAlamat = ({ route, navigation }) => {
   const { address, catatan, kota, kecamatan, desa } = route.params;
@@ -34,11 +35,15 @@ const ListAlamat = ({ route, navigation }) => {
   };
 
   return (
+    <NativeBaseProvider>
     <View>
       <view style={{ margin: 15 }}>
       <header>Pilih Alamat:</header></view>
 
-      <Button title="Tambah Alamat" onPress={handleAddAlamat} />
+      <Button 
+        bg="yellow.500"
+        h={50} 
+        onPress={handleAddAlamat} > Tambah Alamat </Button>
 
      
           <View key={address} style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -51,9 +56,14 @@ const ListAlamat = ({ route, navigation }) => {
       
     
 
-      <Button title="SUBMIT" onPress={handlePilihAlamat} />
+      <Button  
+        bg="yellow.500"
+        h={50}  
+        onPress={handlePilihAlamat} > SUBMIT </Button>
     </View>
+    </NativeBaseProvider>
   );
+  
 };
 
 export default ListAlamat;
